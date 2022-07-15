@@ -1,4 +1,17 @@
-console.log(game());
+const buttons = document.querySelectorAll('button');
+
+let cmpMove;
+let usrMove;
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        cmpMove = computerMove();
+        usrMove = button.innerHTML.toLowerCase();
+        console.log("Computer move: " + cmpMove);
+        console.log("Player move: " + usrMove);
+        console.log(playRound(usrMove, cmpMove));
+    });
+});
 
 function computerMove() {
     let move = [
@@ -50,13 +63,5 @@ function playRound(uMove, cMove) {
         }
     } else {
         return ("The computer doesn't want to play!")
-    }
-}
-
-function game() {
-    for (let i = 0; i < 5; i++) {
-        let userMove = prompt("Enter 'Rock', 'Paper', or 'Scissor': ").toLowerCase();
-
-        console.log(playRound(userMove, computerMove()))
     }
 }
