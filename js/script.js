@@ -4,8 +4,15 @@ let cmpMove;
 let usrMove;
 let moves, addCmpMoveH3, addUsrMoveH3, gameResults;
 
+let games = 0;
+let cscore = 0;
+let uscore = 0;
+let wmessage;
+
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
+        games++;
+
         cmpMove = computerMove();
         usrMove = button.innerHTML.toLowerCase();
 
@@ -41,6 +48,37 @@ buttons.forEach((button) => {
             results.appendChild(moves);
         }
 
+        if (cscore > uscore) {
+            wmessage = "Computer: " + cscore + " - User: " + uscore;
+        } else {
+            wmessage = "User: " + uscore + " - Computer: " + cscore;
+        }
+
+        if (document.querySelector('.winner')) {
+            winnerMsg.innerHTML = wmessage;
+        } else {
+            winner = document.createElement('div');
+            winner.classList.add('winner');
+
+            winnerMsg = document.createElement('h3');
+            winnerMsg.classList.add('winner-msg');
+            winnerMsg.innerHTML = wmessage;
+
+            winner.appendChild(winnerMsg);
+            moves.appendChild(winner);
+        }
+
+        if (games > 4) {
+            if (cscore > uscore) {
+                winnerMsg.innerHTML = "Computer wins! " + wmessage;
+            } else {
+                winnerMsg.innerHTML = "User wins! " + wmessage;
+            }
+
+            games = 0;
+            cscore = 0;
+            uscore = 0;
+        }
     });
 });
 
@@ -64,32 +102,44 @@ function playRound(uMove, cMove) {
 
     if (cMove === 'rock') {
         if (uMove === 'scissor') {
+            cscore++;
             return (msgLose + "Rock crushes Scissor.");
         } else if (uMove === 'paper') {
+            uscore++;
             return (msgWin + "Paper wraps Rock.");
         } else if (uMove === "rock") {
+            uscore++;
             return (msgTie);
         } else {
+            cscore++;
             return (msgInvalid)
         }
     } else if (cMove === 'paper') {
         if (uMove === 'scissor') {
+            uscore++;
             return (msgWin + "Scissor cuts Paper");
         } else if (uMove === 'rock') {
+            cscore++;
             return (msgLose + "Paper wraps Rock");
         } else if (uMove === 'paper') {
+            uscore++;
             return (msgTie);
         } else {
+            cscore++;
             return (msgInvalid)
         }
     } else if (cMove === 'scissor') {
         if (uMove === 'scissor') {
+            uscore++;
             return (msgTie);
         } else if (uMove === 'rock') {
+            uscore++;
             return (msgWin + "Rock crushes Scissor");
         } else if (uMove === 'paper') {
+            cscore++;
             return (msgLose + "Scissor cuts Paper");
         } else {
+            cscore++;
             return (msgInvalid)
         }
     } else {
