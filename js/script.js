@@ -2,14 +2,45 @@ const buttons = document.querySelectorAll('button');
 
 let cmpMove;
 let usrMove;
+let moves, addCmpMoveH3, addUsrMoveH3, gameResults;
 
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         cmpMove = computerMove();
         usrMove = button.innerHTML.toLowerCase();
-        console.log("Computer move: " + cmpMove);
-        console.log("Player move: " + usrMove);
-        console.log(playRound(usrMove, cmpMove));
+
+        const results = document.querySelector('#results');
+
+        if (document.querySelector('.moves')) {
+            addCmpMoveH3.innerHTML = "Computer move: " + cmpMove;
+            addUsrMoveH3.innerHTML = "User move: " + usrMove;
+            gameResults.innerHTML = playRound(usrMove, cmpMove);
+        } else {
+            moves = document.createElement('div');
+            moves.classList.add('moves');
+
+            addCmpMoveH3 = document.createElement('h3');
+            addCmpMoveH3.classList.add('cmove');
+            addCmpMoveH3.style.margin = 0;
+            addCmpMoveH3.innerText = "Computer move: " + cmpMove;
+
+            addUsrMoveH3 = document.createElement('h3');
+            addUsrMoveH3.classList.add('umove');
+            addUsrMoveH3.style.margin = 0;
+            addUsrMoveH3.innerHTML = "User move: " + usrMove;
+
+            gameResults = document.createElement('h3');
+            gameResults.classList.add('gresults');
+            gameResults.style.margin = 0;
+            gameResults.innerHTML = playRound(usrMove, cmpMove);
+
+            moves.appendChild(addCmpMoveH3);
+            moves.appendChild(addUsrMoveH3);
+            moves.appendChild(gameResults);
+
+            results.appendChild(moves);
+        }
+
     });
 });
 
